@@ -1,0 +1,16 @@
+<div *ngFor="let character of this.characters" style="border: 1px; border-color: black;">
+    <img style="height: 5%; width:5%;" src="{{character.image}}">
+    <div fxLayout="row">
+        <span>
+            <span style="vertical-align: top;">
+                {{character.name}}                
+                {{character.location.name}}
+            </span>
+            <span style="vertical-align:top; align-content: flex-end;" fxLayout="row" fxLayoutAlign="end">
+                {{character.id}}
+            </span>
+        </span>
+        <button style="background: transparent; border-color: unset; box-shadow:none; float:right;" (click)="onWorkerSelected(character)">></button>
+
+    </div>
+</div>
