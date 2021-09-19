@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { WorkerService } from './services/worker-service.service';
+
 
 @Component({
   selector: 'app-root',
@@ -8,10 +9,11 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class AppComponent {
   title = 'worker-app';
-  
-
-
-  public onWorkerSelected(character: any) {
-    
-  }
+  public hideWorkerDetails = true;
+ 
+  constructor(public workerService: WorkerService){
+   this.workerService.mySubject.subscribe((worker)=>{
+    this.hideWorkerDetails= Object.keys(this.workerService.mySubject.value).length  ===0;     
+   })
+  }  
 }
