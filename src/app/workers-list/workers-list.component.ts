@@ -1,7 +1,8 @@
-import { Component, OnInit, } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren, } from '@angular/core';
 import { WorkerService } from '../services/worker-service.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'workers-list',
@@ -11,12 +12,13 @@ import { debounceTime } from 'rxjs/operators';
 export class WorkersListComponent implements OnInit {
   public characters: any[] = [];
   public pageInfo: any;
-  public searchForm = new FormGroup({ searchFormControl: new FormControl()});  
+  public searchForm = new FormGroup({ searchFormControl: new FormControl() });
   private characterName: String = '';
- 
+  public showList = false;
+  private destroy$ = new Subject();
 
   constructor(private workerService: WorkerService) { }
-  
+
   ngOnInit() {
     this.searchForm.controls.searchFormControl.valueChanges.pipe(
       debounceTime(500))
@@ -24,20 +26,21 @@ export class WorkersListComponent implements OnInit {
         this.characterName = characterName;
         this.searchWorkers(characterName, 1);
       });
-  this.workerService.getAllWorkers()
-      .valueChanges.subscribe((result: any) => {
+    this.workerService.getAllWorkers()
+      .valueChanges.pipe(takeUntil(this.destroy$)).subscribe((result: any) => {
         this.characters = result.data.characters.results;
-        this.pageInfo = result.data.characters.info;    
+        this.pageInfo = result.data.characters.info;
+        this.showList = true;
       });
-    }
+  }
 
   public searchWorkers(characterName: any = null, pageNo: any = 1) {
     let filterCriteria = `,filter:{name:"${characterName}"}`;
     if (characterName === null || characterName === '') {
       filterCriteria = ''
     }
-    this.workerService.searchWorkers(pageNo,filterCriteria)
-   .valueChanges.subscribe((result: any) => {
+    this.workerService.searchWorkers(pageNo, filterCriteria)
+      .valueChanges.pipe(takeUntil(this.destroy$)).subscribe((result: any) => {
         this.characters = result.data.characters.results;
         this.pageInfo = result.data.characters.info;
       });
@@ -45,7 +48,7 @@ export class WorkersListComponent implements OnInit {
   }
 
   public onWorkerSelected(character: any) {
-    this.workerService.selectedWorker.next(character);    
+    this.workerService.selectedWorker.next(character);
   }
 
   public nextPage() {

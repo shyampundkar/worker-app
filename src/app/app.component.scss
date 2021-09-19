@@ -1,0 +1,15 @@
+.container{
+    height:100%; width: 100%;
+}
+
+.worker-list{
+    overflow: scroll;
+}
+
+.worker-details{
+    overflow-y: scroll; overflow-wrap: break-word;
+}
+
+.no-selection{
+    align-self: center; text-align: center; width: 100%;
+}

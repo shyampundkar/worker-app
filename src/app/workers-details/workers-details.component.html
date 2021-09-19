@@ -1,7 +1,7 @@
-<div fxLayout="column" style="margin-left: 20px;">
+<div fxLayout="column" class="worker-margin">
     <h1>Worker Profile</h1>
     <h3>{{character.name}}</h3>
-    <img style="height: 20%; width:20%; align-self: center;" src="{{this.character.image}}">
+    <img class="worker-image" src="{{this.character.image}}">
     <b>ID</b>
     {{character.id}}
     <b>Name</b>
@@ -28,18 +28,18 @@
     {{characterDetails?.location?.dimension}}
     <hr>
     <h2>Episodes</h2>
-    <div >
-        <table border="1">
+    <div>
+        <table border="1" >
             <tr>
                 <th>Episode ID</th>
                 <th>Name</th>
                 <th>Air Date</th>
-              </tr>
-              <tr *ngFor="let episode of characterDetails?.episode" >
+            </tr>
+            <tr *ngFor="let episode of characterDetails?.episode">
                 <td>{{episode?.id}}</td>
                 <td>{{episode?.name}}</td>
                 <td>{{episode?.air_date}}</td>
-              </tr>              
+            </tr>
         </table>
     </div>
 </div>

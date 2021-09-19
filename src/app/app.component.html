@@ -1,14 +1,13 @@
-<div fxLayout="row" style="height:100%; width: 100%;">
-    <div fxLayout="column" fxFlex="50" style="overflow: scroll;">
+<div fxLayout="row" class="container">
+    <div fxLayout="column" fxFlex="50" class="worker-list">
         <workers-list></workers-list>
     </div>
-    <div style="overflow-y: scroll; overflow-wrap: break-word;" fxFlex="50" *ngIf="!this.hideWorkerDetails">
+    <div class="worker-details" fxFlex="50" *ngIf="!this.hideWorkerDetails">
         <workers-details></workers-details>
     </div>
 
-    <div *ngIf="this.hideWorkerDetails" style="align-self: center; text-align: center; width: 100%;">
+    <div *ngIf="this.hideWorkerDetails" class="no-selection">
         <h3>Nothing selected</h3>
         <h5>When a worker is selected, They will be shown here</h5>
     </div>
-
 </div>

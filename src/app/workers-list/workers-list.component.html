@@ -1,4 +1,4 @@
-<div style="margin-left: 20px;">
+<div class="all-workers">
     <h1>
         All Workers
     </h1>
@@ -6,24 +6,23 @@
         Search to find workers
     </h3>
     <form [formGroup]="this.searchForm">
-        <input type="text" style="width:500px;" placeholder="Type the worker name to start searching"
+        <input type="text" class="search-input" placeholder="Type the worker name to start searching"
             formControlName="searchFormControl">
-            <div style="margin-top: 15px;margin-bottom:15px;">
-        <div>Total Pages: {{pageInfo?.pages}}</div>
-        <div>Current Page: {{pageInfo?.next-1}}</div>
-        <button (click)="prevPage()">Prev Page: {{pageInfo?.prev}}</button>
-        <button (click)="nextPage()">Next Page: {{pageInfo?.next}}</button>
-    </div>
+        <div class="page-control">
+            <div>Total Pages: {{pageInfo?.pages}}</div>
+            <div>Current Page: {{pageInfo?.next-1}}</div>
+            <button (click)="prevPage()">Prev Page: {{pageInfo?.prev}}</button>
+            <button (click)="nextPage()">Next Page: {{pageInfo?.next}}</button>
+        </div>
     </form>
-    <div *ngFor="let character of this.characters" style="border: 1px; border-color: black;">
-        <img style="height: 5%; width:5%;" src="{{character.image}}">
+    <div #workersList *ngFor="let character of this.characters" class="characters">
+        <img class="character-image" src="{{character?.image}}">
         <span>
-            <span style="vertical-align:top;">
+            <span class="character-alignment">
                 Name: {{character.name}} |
-                Location: {{character.location.name}} |                
-                Id: {{character.id}}                
-                <button style="background: transparent; border-color: unset; box-shadow:none; float:right;"
-                    (click)="onWorkerSelected(character)">></button>
+                Location: {{character.location.name}} |
+                Id: {{character.id}}
+                <button class="details-button" (click)="onWorkerSelected(character)">></button>
             </span>
         </span>
     </div>
