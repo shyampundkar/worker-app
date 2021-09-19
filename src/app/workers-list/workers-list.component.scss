@@ -7,11 +7,13 @@
 }
 
 .page-control{
-    margin-top: 15px;margin-bottom:15px;
+    padding-top: 25px;
+    margin-bottom:15px;
 }
 
 .characters{
-    border: 1px; border-color: black;
+    border: 1px; 
+    border-color: black;    
 }
 
 .character-image{
@@ -25,4 +27,9 @@
 .character-alignment
 {
     vertical-align:top;
+}
+
+.error{
+    color: red;
+    font-size: small;
 }

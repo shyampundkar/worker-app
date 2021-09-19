@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { WorkerService } from '../services/worker-service.service';
 
 @Component({
@@ -6,9 +6,10 @@ import { WorkerService } from '../services/worker-service.service';
   templateUrl: './workers-details.component.html',
   styleUrls: ['./workers-details.component.scss']
 })
-export class WorkersDetailsComponent implements OnInit {
-  character: any;
-  characterDetails: any;
+export class WorkersDetailsComponent implements OnInit, OnDestroy {
+  public character: any;
+  public characterDetails: any;
+  public visited = 'Yes';
   constructor(private workerService: WorkerService) { }
 
   ngOnInit(): void {
@@ -22,8 +23,19 @@ export class WorkersDetailsComponent implements OnInit {
         .valueChanges.subscribe((result: any) => {
           if (result.data.charactersByIds && result.data.charactersByIds[0]) {
             this.characterDetails = result.data.charactersByIds[0];
+            let characterId = localStorage.getItem(this.character.id);
+            if (characterId && this.character.id == characterId) {
+              this.visited = "Yes";
+            }
+            else {
+              localStorage.setItem(this.character.id, this.character.id);
+              this.visited = "No";
+            }
           }
         });
     })
+  }
+  ngOnDestroy(): void {
+    localStorage.clear();
   }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { WorkerService } from './services/worker-service.service';
 
 @Component({
@@ -9,10 +9,15 @@ import { WorkerService } from './services/worker-service.service';
 export class AppComponent {
   title = 'worker-app';
   public hideWorkerDetails = true;
- 
-  constructor(public workerService: WorkerService){
-   this.workerService.selectedWorker.subscribe((worker)=>{
-    this.hideWorkerDetails= Object.keys(worker).length ===0;     
-   })
-  }  
+
+  constructor(public workerService: WorkerService) {
+    this.workerService.selectedWorker.subscribe((worker) => {
+      this.hideWorkerDetails = Object.keys(worker).length === 0;
+    })
+  }
+
+  @HostListener("window:onbeforeunload", ["$event"])
+  clearLocalStorage(event: any) {
+    localStorage.clear();
+  }
 }

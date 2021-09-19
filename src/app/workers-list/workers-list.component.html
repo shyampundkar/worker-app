@@ -6,14 +6,20 @@
         Search to find workers
     </h3>
     <form [formGroup]="this.searchForm">
+        <div>
         <input type="text" class="search-input" placeholder="Type the worker name to start searching"
             formControlName="searchFormControl">
+            <div *ngIf="this.searchForm.invalid" class="error">
+                Numbers and special characters are not allowed
+            </div>
         <div class="page-control">
             <div>Total Pages: {{pageInfo?.pages}}</div>
             <div>Current Page: {{pageInfo?.next-1}}</div>
             <button (click)="prevPage()">Prev Page: {{pageInfo?.prev}}</button>
             <button (click)="nextPage()">Next Page: {{pageInfo?.next}}</button>
         </div>
+    </div>
+        
     </form>
     <div #workersList *ngFor="let character of this.characters" class="characters">
         <img class="character-image" src="{{character?.image}}">

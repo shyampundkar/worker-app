@@ -1,8 +1,9 @@
 import { Component, OnInit, QueryList, ViewChildren, } from '@angular/core';
 import { WorkerService } from '../services/worker-service.service';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { Routes, RouterModule, Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'workers-list',
@@ -12,17 +13,26 @@ import { Subject } from 'rxjs';
 export class WorkersListComponent implements OnInit {
   public characters: any[] = [];
   public pageInfo: any;
-  public searchForm = new FormGroup({ searchFormControl: new FormControl() });
+  public searchForm = new FormGroup({ searchFormControl: new FormControl(null, { validators: [Validators.pattern('^[a-zA-Z]+$')] }) });
   private characterName: String = '';
   public showList = false;
   private destroy$ = new Subject();
 
-  constructor(private workerService: WorkerService) { }
+  constructor(private workerService: WorkerService,
+    private activatedRoute: ActivatedRoute) {
+    this.activatedRoute.params.subscribe(params => {
+      console.log(params);
+    });
+  }
 
   ngOnInit() {
+
     this.searchForm.controls.searchFormControl.valueChanges.pipe(
-      debounceTime(500))
+      debounceTime(300))
       .subscribe(characterName => {
+        if (this.searchForm.invalid) {
+          return;
+        }
         this.characterName = characterName;
         this.searchWorkers(characterName, 1);
       });
